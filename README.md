@@ -37,9 +37,9 @@ Baseline, RUN:
    
 # Citation
 
-    @inproceedings{Lee:18,
-      author    = {Jason Lee and Kyunghyun Cho and Jason Weston and Douwe Kiela},
-      title     = {Emergent Translation in Multi-Agent Communication},
-      year      = {2018},
-      booktitle = {Proceedings of the International Conference on Learning Representations},
+    @inproceedings{Li:2020,
+      author    = {Yaoyiran Li and Edoardo Maria Ponti and Ivan Vulić and Anna Korhonen},
+      title     = {Emergent Communication Pretraining for Few-Shot Machine Translation},
+      year      = {2020},
+      booktitle = {Proceedings of the 28th International Conference on Computational Linguistics},
     }
