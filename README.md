@@ -13,7 +13,7 @@ Dependencies
     CUDA 10.1 (In our implementation the driver version is 418.87.01. We did not test other CUDA versions.)
     Numpy
 
-Our data and pertrained models can be downloaded via Google Drive (please refer to a readme file in it): https://drive.google.com/drive/folders/1sMWfvfRf9uj-LJJTye7XCixsES1EPslr?usp=sharing 
+Our data and pertrained models can be downloaded via Google Drive (please refer to a separate readme file in the Google Drive folder): https://drive.google.com/drive/folders/1sMWfvfRf9uj-LJJTye7XCixsES1EPslr?usp=sharing.
 
 
 Our Method, RUN:
@@ -27,6 +27,8 @@ Step 2 (NMT Fine-tuning):
 
     cd ./NMT
     sh run_training.sh
+
+We provide COCO image features for Step 1 Emeregent Communication Pretraining. We also release our pretrained EC models which readers can use and directly go to Step 2. 
 
 Baseline, RUN:  
 
