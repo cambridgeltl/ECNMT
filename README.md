@@ -34,3 +34,12 @@ Baseline, RUN:
 
     cd ./BASELINENMT
     sh run_training.sh
+   
+#Citation
+
+@inproceedings{Lee:18,
+  author    = {Jason Lee and Kyunghyun Cho and Jason Weston and Douwe Kiela},
+  title     = {Emergent Translation in Multi-Agent Communication},
+  year      = {2018},
+  booktitle = {Proceedings of the International Conference on Learning Representations},
+}
