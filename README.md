@@ -1,5 +1,5 @@
 # ECNMT
-The repository is the PyTorch implementation of the following paper: 
+This repository is the PyTorch implementation of the following paper: 
 
 "Emergent Communication Pretraining for Few-Shot Machine Translation", Yaoyiran Li, Edoardo Maria Ponti, Ivan Vulić, and Anna Korhonen, Proceedings of the 28th International Conference on Computational Linguistics (COLING 2020), long paper, 2020, online.
 
