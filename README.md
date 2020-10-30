@@ -6,14 +6,17 @@ Pytorch 1.3.1 or above
 Python 3.6
 
 Our Method, RUN:
-Step 1 (EC Pretraining): cd ./ECPRETRAIN
+Step 1 (EC Pretraining): 
 
+                         cd ./ECPRETRAIN
                          sh run_training.sh
                          
-Step 2 (NMT Fine-tuning): cd ./NMT
+Step 2 (NMT Fine-tuning): 
 
+                          cd ./NMT
                           sh run_training.sh
 
-Baseline, RUN:  cd ./BASELINENMT
+Baseline, RUN:  
 
+                cd ./BASELINENMT
                 sh run_training.sh
