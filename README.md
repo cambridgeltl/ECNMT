@@ -8,7 +8,7 @@ Part of the code is developed based on the publicly available open-source github
 
 Dependencies
 
-    Pytorch 1.3.1 (or above)
+    Pytorch 1.3.1
     Python 3.6
     CUDA 10.1 (In our implementation the driver version is 418.87.01. We did not test other CUDA versions.)
     Numpy
