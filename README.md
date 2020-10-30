@@ -13,7 +13,7 @@ Dependencies
     CUDA 10.1 (In our implementation the driver version is 418.87.01. We did not test other CUDA versions.)
     Numpy
 
-Our data and pertrained models can be downloaded via Google Drive:
+Our data and pertrained models can be downloaded via Google Drive (please refer to a readme file in it):
     
     https://drive.google.com/drive/folders/1sMWfvfRf9uj-LJJTye7XCixsES1EPslr?usp=sharing 
 
