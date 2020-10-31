@@ -9,6 +9,9 @@ Yaoyiran Li, Edoardo Maria Ponti, Ivan Vulić, and Anna Korhonen. 2020. *Emergen
 - Python 3.6
 
 ## Data and Pretrained Models
+The original data sets used in our project include [MS COCO](http://cocodataset.org/#home)) for Emergent Communication Pretraining, and [Multi30k Task 1](https://github.com/multi30k/dataset) and [Europarl](http://www.statmt.org/europarl/v7/) for NMT fine-tuning.
+
+
 The data and pertrained models can be downloaded via a Google Drive link (TBA). Please refer to the separate readme file therein for more details.
 
 ## Experiment
