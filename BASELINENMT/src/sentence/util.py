@@ -348,18 +348,16 @@ def check_dataset_sanity(args):
         assert (args.src, args.trg) == ("en", "de") or (args.src, args.trg) == ("de", "en") or (args.src, args.trg) == ("cs", "en") or (args.src, args.trg) == ("en", "cs") or (args.src, args.trg) == ("en", "tr") or (args.src, args.trg) == ("tr", "en") or (args.src, args.trg) == ("en", "ro") or (args.src, args.trg) == ("ro", "en") or (args.src, args.trg) == ("fr", "en") or (args.src, args.trg) == ("en", "fr")
 
 def scr_path():
-    return "/media/data/translagent2/translagent_public/"
+    return "" #enter your root
 
 def saved_results_path():
-    return "/media/data/translagent2/saved_results/"
+    return "" #enter your root
 
 def multi30k_reorg_path():
-    #return "/misc/kcgscratch1/ChoGroup/jason/fair/multi30k_old/"
-    #return "/misc/kcgscratch1/ChoGroup/jason/translagent_public/data/sentence/multi30k_reorg/"
-    return "/media/data/translagent2/multi30k_reorg/"
+    return "" #enter your root
 
 def coco_path():
-    return "/media/data/translagent2/coco_new/"
+    return "" #enter your root
 
 def sort_per_len(caps):
     lens = [(idx, len(cap)) for idx, cap in enumerate(caps)]
