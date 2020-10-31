@@ -1,7 +1,7 @@
 # ECNMT
 This repository is the PyTorch implementation of the following paper: 
 
-"Emergent Communication Pretraining for Few-Shot Machine Translation", Yaoyiran Li, Edoardo Maria Ponti, Ivan Vulić, and Anna Korhonen, Proceedings of the 28th International Conference on Computational Linguistics (COLING 2020), long paper, 2020, online.
+"Emergent Communication Pretraining for Few-Shot Machine Translation", Yaoyiran Li, Edoardo Maria Ponti, Ivan Vulić, and Anna Korhonen, Proceedings of the 28th International Conference on Computational Linguistics (COLING 2020).
 
 Part of the code is developed based on the publicly available open-source github repo https://github.com/facebookresearch/translagent , which is the offical implementation of "Emergent Translation in Multi-Agent Communication", ICLR 2018. 
 
@@ -37,7 +37,7 @@ Baseline, RUN:
    
 # Citation
 
-    @inproceedings{Li:2020,
+    @inproceedings{YL:2020,
       author    = {Yaoyiran Li and Edoardo Maria Ponti and Ivan Vulić and Anna Korhonen},
       title     = {Emergent Communication Pretraining for Few-Shot Machine Translation},
       year      = {2020},
