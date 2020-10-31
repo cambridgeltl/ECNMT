@@ -33,7 +33,7 @@ if __name__ == '__main__':
                     help="Which Image Dataset To Use EC Pretraining")
     parser.add_argument("--len_loss", type=int, default=False,
                     help="Which GPU to run")
-    parser.add_argument("--vocab_size", type=int, default=4035,
+    parser.add_argument("--vocab_size", type=int, default=4035, #The EC vocab_size should be in line with the vocab_size in NMT fine-tuning. 
                     help="EC vocab size")                    
     parser.add_argument("--alpha", type=float, default=1.0,
                     help="Which GPU to run")
