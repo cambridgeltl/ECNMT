@@ -28,7 +28,7 @@ Step 2 (NMT Fine-tuning):
     cd ./NMT
     sh run_training.sh
 
-We provide COCO image features for Step 1 Emeregent Communication Pretraining. We also release our pretrained EC models which readers can use and directly go to Step 2. 
+We provide COCO image features for Step 1 Emeregent Communication Pretraining. We also release our pretrained EC models which readers can use and directly go to Step 2. Please remember to modify the roots for training data, pretrained model and saved path before running the code.
 
 Baseline, RUN:  
 
