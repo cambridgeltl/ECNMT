@@ -9,10 +9,11 @@ Yaoyiran Li, Edoardo Maria Ponti, Ivan Vulić, and Anna Korhonen. 2020. *Emergen
 - Python 3.6
 
 ## Data and Pretrained Models
-The original data sets used in our project include [MS COCO](http://cocodataset.org/#home)) for Emergent Communication Pretraining, and [Multi30k Task 1](https://github.com/multi30k/dataset) and [Europarl](http://www.statmt.org/europarl/v7/) for NMT fine-tuning.
+The original data sets used in our project include [MS COCO](http://cocodataset.org/#home) for Emergent Communication Pretraining, and [Multi30k Task 1](https://github.com/multi30k/dataset) and [Europarl](http://www.statmt.org/europarl/v7/) for NMT fine-tuning. Text preprcessing is based on [Moses](https://github.com/moses-smt/mosesdecoder "Moses") and [Subword-NMT](https://github.com/rsennrich/subword-nmt "Subword-NMT").
 
+To download COCO image features and preprocessed EN-DE (DE-EN) data, please follow the [Translagent](https://github.com/facebookresearch/translagent) repo, where image features are located in "./coco_new/half_feats/" and EN-DE (DE-EN) data are in "./multi30k_reorg/task1/".
 
-The data and pertrained models can be downloaded via a Google Drive link (TBA). Please refer to the separate readme file therein for more details.
+The preprocessed data for EN-CS (CS-EN), EN-RO (RO-EN) and EN-FR (FR-EN) and EC pertrained models for all four language pairs can be downloaded via a Google Drive link (TBA). Please refer to the separate readme file therein for more details.
 
 ## Experiment
 
