@@ -37,8 +37,8 @@ def translate(args, agent, labels, i2w, batch_size, which, tt):
     src_caps = [ x[1:-1] for x in src_caps[src_sorted_idx] ]
     trg_caps = [ x[1:-1] for x in trg_caps[src_sorted_idx] ]
 
-    l2_src = print_captions(src_caps, i2w["src"], " ", args.flores)
-    en_ref = print_captions(trg_caps, i2w["trg"], " ", args.flores)
+    l2_src = print_captions(src_caps, i2w["src"], " ")
+    en_ref = print_captions(trg_caps, i2w["trg"], " ")
     en_hyp = agent.translate(src_caps, args)
 
     print("---------------- {} TRANSLATION ----------------".format(which))
@@ -77,21 +77,15 @@ def valid_bleu(valid_labels, model, args, tt, dir_dic, which_dataset="valid"):
     f = codecs.open(destination, 'wb', encoding="utf8")
     f.write( u'\r\n'.join( final_out ) )
     f.close()
-    if not args.flores:
-        if (args.src == "en" and args.trg == "de") or (args.src == "de" and args.trg == "en"):
-            command = 'perl {}/multi-bleu.perl {} < {}'.format(scr_path(), '{}/ref/{}_many_{}'.format(dir_dic["data_path"], args.trg, which_dataset), destination )
-        elif (args.src == "en" and args.trg == "cs") or (args.src == "cs" and args.trg == "en"):
-            command = 'perl {}/multi-bleu.perl {} < {}'.format(scr_path(), '{}/ref_encs/{}_many_{}'.format(dir_dic["data_path"], args.trg, which_dataset), destination )
-        elif (args.src == "en" and args.trg == "ro") or (args.src == "ro" and args.trg == "en"):
-            command = 'perl {}/multi-bleu.perl {} < {}'.format(scr_path(), '{}/ref_enro/{}_many_{}'.format(dir_dic["data_path"], args.trg, which_dataset), destination ) 
-        elif (args.src == "en" and args.trg == "fr") or (args.src == "fr" and args.trg == "en"):
-            command = 'perl {}/multi-bleu.perl {} < {}'.format(scr_path(), '{}/ref_enfr/{}_many_{}'.format(dir_dic["data_path"], args.trg, which_dataset), destination )
-        else:
-            command = 'perl {}/multi-bleu.perl {} < {}'.format(scr_path(), '{}/ref_entr/{}_many_{}'.format(dir_dic["data_path"], args.trg, which_dataset), destination )
 
-
-    else:
-        command = 'perl {}/multi-bleu.perl {} < {}'.format(scr_path(), '/workspace/flores/data/wiki_{}_en_bpe2500/{}.ref.en'.format(args.lrlang, which_dataset) , destination )
+    if (args.src == "en" and args.trg == "de") or (args.src == "de" and args.trg == "en"):
+        command = 'perl {}/multi-bleu.perl {} < {}'.format(scr_path(), '{}/ref/{}_many_{}'.format(dir_dic["data_path"], args.trg, which_dataset), destination )
+    elif (args.src == "en" and args.trg == "cs") or (args.src == "cs" and args.trg == "en"):
+        command = 'perl {}/multi-bleu.perl {} < {}'.format(scr_path(), '{}/ref_encs/{}_many_{}'.format(dir_dic["data_path"], args.trg, which_dataset), destination )
+    elif (args.src == "en" and args.trg == "ro") or (args.src == "ro" and args.trg == "en"):
+        command = 'perl {}/multi-bleu.perl {} < {}'.format(scr_path(), '{}/ref_enro/{}_many_{}'.format(dir_dic["data_path"], args.trg, which_dataset), destination ) 
+    elif (args.src == "en" and args.trg == "fr") or (args.src == "fr" and args.trg == "en"):
+        command = 'perl {}/multi-bleu.perl {} < {}'.format(scr_path(), '{}/ref_enfr/{}_many_{}'.format(dir_dic["data_path"], args.trg, which_dataset), destination )
     bleu = commands.getstatusoutput(command)[1]
     print(which_dataset, bleu[ bleu.find("BLEU"): ])
     bleu_score = float(bleu[ bleu.find("=")+1: bleu.find(",", bleu.find("=")+1) ] )
