@@ -19,13 +19,12 @@ The preprocessed data for EN-CS (CS-EN), EN-RO (RO-EN) and EN-FR (FR-EN), and EC
 ## Pretrained Models
 
 ### Emergent Communication Pretraining
+| Source | Target |
 |---|---|
 | [EN](https://drive.google.com/file/d/1PiAdeUuSjjlgfLMkEmTdD2EtPuPwUgq4/view?usp=sharing) | [DE](https://drive.google.com/file/d/16_pOVlQhqHnjv_LuyaAzYCHhRiCKrCvP/view?usp=sharing) |
 | [EN](https://drive.google.com/file/d/1z0JbwMxgB32CYXn99RbdhHreZpzeME-1/view?usp=sharing) | [CS](https://drive.google.com/file/d/1WfQzwItzMEHnd0jzwSPFx1K806TMLjku/view?usp=sharing) |
 | [EN](https://drive.google.com/file/d/1dvGcmjIg5bSMUR89abv_zPQo4TmuwXHF/view?usp=sharing) | [RO](https://drive.google.com/file/d/12_OXbnBpIRzwrBq1PDGCy-SJi0FwLpfq/view?usp=sharing) |
 | [EN](https://drive.google.com/file/d/1cbQCTL6e1U6ctmKf1kVlYy9192V48QjK/view?usp=sharing) | [FR](https://drive.google.com/file/d/1MSM4pyXEVHve3fTqnaB5kY-HkqccMQAm/view?usp=sharing) |
-|---|---|
-
 ## Experiments
 
 Step 1: run EC pretraining (otherwise go to Step 2 and use a pretrained model).
