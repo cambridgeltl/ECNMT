@@ -1,7 +1,7 @@
 # ECNMT: Emergent Communication Pretraining for Few-Shot Machine Translation
-This repository is the official PyTorch implementation of the following [paper](https://coling2020.org/pages/accepted_papers_main_conference): 
+This repository is the official PyTorch implementation of the following paper: 
 
-Yaoyiran Li, Edoardo Maria Ponti, Ivan Vulić, and Anna Korhonen. 2020. *Emergent Communication Pretraining for Few-Shot Machine Translation*. In Proceedings of the 28th International Conference on Computational Linguistics (COLING 2020).
+Yaoyiran Li, Edoardo Maria Ponti, Ivan Vulić, and Anna Korhonen. 2020. *Emergent Communication Pretraining for Few-Shot Machine Translation*. In Proceedings of the 28th International Conference on Computational Linguistics (COLING 2020). [LINK](https://coling2020.org/pages/accepted_papers_main_conference)
 
 This method is a form of unsupervised knowledge transfer in the absence of linguistic data, where a model is first pre-trained on *artificial* languages emerging from referential games and then fine-tuned on few-shot downstream tasks like neural machine translation.
 
