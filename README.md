@@ -13,8 +13,10 @@ This method is a form of unsupervised knowledge transfer in the absence of lingu
 - Python 3.6
 
 ## Data
-To download COCO image features and preprocessed EN-DE (DE-EN) data, please follow the [Translagent](https://github.com/facebookresearch/translagent) repo, where image features are located in "./coco_new/half_feats/" and EN-DE (DE-EN) data are in "./multi30k_reorg/task1/".
+COCO image features are available in the sub-folder `half_feats` [here](https://drive.google.com/open?id=14XUGgnXbt--rwfyM-raz9BKKJlnV1zXh). Preprocessed EN-DE (DE-EN) data for translation are available in the sub-folder `task1` [here](https://drive.google.com/open?id=14059L8cfNxxtR8jwRmOS45NmP0J7Rg9r). Both are obtained from [Translagent](https://github.com/facebookresearch/translagent).
 
+Please find the data for translation in the other language pairs (EN-CS, EN-RO, EN-FR) in the links below.
+ 
 | Dictionaries | Train Sentence Pairs | Reference Translations |
 | ------------ | -------------------- | ---------------------- |
 |  [EN-CS & CS-EN](https://drive.google.com/drive/folders/1yU-eEWE7QbfUho91Z5BvbfNWwuhnxEUL?usp=sharing) |  [EN-CS & CS-EN](https://drive.google.com/drive/folders/1X-AMqvo3sJdOrYtX6svb6xjapEuqv9l2?usp=sharing) | [EN-CS & CS-EN](https://drive.google.com/drive/folders/1jvq-iJS-Yo3zRz3wh4BMGJOwkGMe9pAg?usp=sharing) |
@@ -61,7 +63,7 @@ sh run_training.sh
     
 ## Acknowledgements
 
-Part of the code is based on [translagent](https://github.com/facebookresearch/translagent). 
+Part of the code is based on [Translagent](https://github.com/facebookresearch/translagent). 
 
 The datasets for our experiments include [MS COCO](http://cocodataset.org/#home) for Emergent Communication pretraining, [Multi30k Task 1](https://github.com/multi30k/dataset) and [Europarl](http://www.statmt.org/europarl/v7/) for NMT fine-tuning. Text preprocessing is based on [Moses](https://github.com/moses-smt/mosesdecoder "Moses") and [Subword-NMT](https://github.com/rsennrich/subword-nmt "Subword-NMT"). 
 
