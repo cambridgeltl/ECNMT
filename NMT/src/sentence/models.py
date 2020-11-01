@@ -23,7 +23,6 @@ def sample_gumbel(shape, tt=torch, eps=1e-20):
 
 def gumbel_softmax_sample(logits, temp, tt=torch):
     y = ( torch.log(logits) + sample_gumbel(logits.size(), tt) ) / temp
-    #print("Y SHAPE:",y.shape)
     return F.softmax(y,dim=-1)
 
 def gumbel_softmax(logits, temp, hard, tt=torch):
@@ -47,10 +46,7 @@ class NMT(torch.nn.Module):
         self.encoder = RnnListener("src", args)
         self.softplus = nn.Softplus()
         self.sigmoid = nn.Sigmoid()
-        ###
         self.proj = args.proj
-
-
         self.drop_aft = nn.Dropout(p=args.dropout)
 
         if args.proj:
@@ -94,7 +90,6 @@ class NMT(torch.nn.Module):
     def return_h(self, pretrained_dict):
         diag_h = {}
         for item in pretrained_dict.keys(): 
-            #diag_h[item] = Variable(self.tt.FloatTensor(pretrained_dict[item].size()), requires_grad=True )
             diag_h[item] = torch.nn.Parameter( self.tt.FloatTensor(pretrained_dict[item].size()),requires_grad=True)
             torch.nn.init.normal_(diag_h[item], mean=0.0, std=0.0)
         return diag_h
@@ -333,7 +328,6 @@ class Speaker(torch.nn.Module):
             if num_dead[bidx] < width:
                 for didx in range( width - num_dead[bidx] ):
                     (a, b, c) = live[bidx][didx]
-       #             print("abc :", "a:::",a,"b:::",b,"c:::",c)
                     dead[bidx].append( (a, b, c)  )
         dead_ = [ [ ( float(a) / math.pow(len(b), norm_pow) , b, c) for (a,b,c) in ee] for ee in dead]
         ans = []
