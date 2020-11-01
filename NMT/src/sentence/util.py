@@ -307,25 +307,13 @@ def print_params(names, sizes):
 
 
 
-def print_captions(gen_indices, i2w, joiner,flores):
+def print_captions(gen_indices, i2w, joiner):
 
-    if flores:
+    return [ joiner.join( [i2w[ii] for ii in gen_idx] ).replace("@@ ", "") for gen_idx in gen_indices]
 
-        seqs = [ " ".join( [i2w[ii] for ii in gen_idx] ).replace("@@ ", "") for gen_idx in gen_indices]
+def decode(gen_indices, i2w):
 
-        return [" ".join(["".join(w.split()) for w in seq.split("▁")]).strip() for seq in seqs]
-    else:
-        return [ joiner.join( [i2w[ii] for ii in gen_idx] ).replace("@@ ", "") for gen_idx in gen_indices]
-
-def decode(gen_indices, i2w, flores):
-
-    if flores:
-
-        seqs = [ " ".join( [i2w[ii] for ii in gen_idx] ).replace("@@ ", "") for gen_idx in gen_indices]
-
-        return [" ".join(["".join(w.split()) for w in seq.split("▁")]).strip() for seq in seqs]
-    else:
-        return [ " ".join( [i2w[ii] for ii in gen_idx] ).replace("@@ ", "") for gen_idx in gen_indices]
+    return [ " ".join( [i2w[ii] for ii in gen_idx] ).replace("@@ ", "") for gen_idx in gen_indices]
 
 
 
