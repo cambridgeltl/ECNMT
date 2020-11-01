@@ -1,9 +1,3 @@
-# Copyright (c) 2017-present, Facebook, Inc.
-# All rights reserved.
-#
-# This source code is licensed under the license found in the
-# LICENSE file in the root directory of this source tree.
-#
 import time
 import operator
 import math
@@ -29,13 +23,9 @@ def sample_gumbel_new(shape, tt=torch, eps=1e-20):
     return -torch.log(-torch.log(U + eps) + eps)
 
 def gumbel_softmax_sample_new(logits, temp, tt=torch, idx_=10):
-    #print(logits.device, sample_gumbel(logits.size(), tt).device )
     y = ( logits + sample_gumbel_new(logits.size(), tt) ) / temp
     if idx_ == 0:
         y[:,3] = -float('inf')
-    #else:
-    #    y[:,3] += torch.log(torch.tensor(1.0+idx_/0.02))
-    #print("Y SHAPE:",y.shape)
     return F.softmax(y,dim=-1)
 
 def gumbel_softmax_new(logits, temp, hard,  tt=torch, idx_=10):
@@ -74,11 +64,7 @@ class NMT(torch.nn.Module):
         self.decoder = Speaker('trg', args)
         self.encoder = RnnListener('src', args)
 
-        ###
         self.proj = args.proj
-        #if args.proj:
-        #    self.projection = torch.nn.Linear(args.D_hid, args.D_hid)
-
 
         self.drop_aft = nn.Dropout(p=args.dropout)
 
@@ -92,10 +78,6 @@ class NMT(torch.nn.Module):
             self.drop2 = nn.Dropout(p=args.dropout)
 
 
-
-        ###
-
-
         self.tt = torch if args.cpu else torch.cuda
         self.trg, self.src = trg, src
         self.i2w, self.w2i = args.i2w, args.w2i
@@ -107,9 +89,6 @@ class NMT(torch.nn.Module):
 
     def forward(self, src_caps_in, src_caps_in_lens, trg_sorted_idx, trg_caps_in, trg_caps_in_lens):
         enc_hid = self.encoder(src_caps_in, src_caps_in_lens) # (batch_size, D_hid)
-
-#        if self.proj:
-#            enc_hid = self.projection(enc_hid)
 
         enc_hid = torch.index_select(enc_hid, 0, trg_sorted_idx)
         if self.proj:
@@ -130,7 +109,6 @@ class NMT(torch.nn.Module):
         src = Variable( self.tt.LongTensor( src ), requires_grad=False ) # (batch_size, seq_len)
 
         concept = self.encoder(src, src_lens) # (batch_size, D_hid)
-        #print("concept :", concept[:2])
         if self.proj:
             concept = concept + self.projection(concept)
             concept = concept + self.projection2(concept)
@@ -138,7 +116,6 @@ class NMT(torch.nn.Module):
             gen_idx = self.decoder.beam_search(concept, args.beam_width, args.norm_pow)
         elif args.decode_how == "greedy":
             gen_idx = self.decoder.sample(concept, True)
-        #print("gen_idx:", gen_idx[:2])
         trg = decode(gen_idx, self.i2w['trg'],args.flores)
         return trg
 
@@ -148,7 +125,6 @@ class RnnListener(torch.nn.Module):
         super(RnnListener, self).__init__()
         self.rnn = nn.GRU(args.D_emb, args.D_hid, args.num_layers['lsn'][lang], batch_first=True) if args.num_directions['lsn'][lang] == 1 else \
                    nn.GRU(args.D_emb, args.D_hid, args.num_layers['lsn'][lang], batch_first=True, bidirectional=True)
-        #self.emb = nn.Embedding(args.vocab_size[lang], args.D_emb, padding_idx=0)
         if args.w2v:
             self.emb = nn.Embedding.from_pretrained(args.en_embed,freeze=True, padding_idx=0)
         else:
@@ -183,11 +159,9 @@ class RnnListener(torch.nn.Module):
         out = h_n.transpose(0,1).contiguous().view(batch_size, self.num_directions * self.D_hid)
         # out (batch_size, num_layers * num_directions * D_hid)
         out = self.hid_to_hid( out )
-        #out = self.hid_to_hid( out )
         # out (batch_size, D_hid)
 
         if self.unit_norm:
-            #norm = torch.norm(out, p=2, dim=1) + 1e-9
             norm = torch.norm(out, p=2, dim=1, keepdim=True).detach() + 1e-9
             out = out / norm.expand_as(out)
 
@@ -197,7 +171,6 @@ class Speaker(torch.nn.Module):
     def __init__(self, lang, args):
         super(Speaker, self).__init__()
         self.rnn = nn.GRU(args.D_emb, args.D_hid, args.num_layers['spk'][lang], batch_first=True)
-        #self.emb = nn.Embedding(args.vocab_size[lang], args.D_emb, padding_idx=0)
         if args.w2v:
             self.emb = nn.Embedding.from_pretrained(args.l2_embed,freeze=True, padding_idx=0)
         else:
@@ -216,7 +189,6 @@ class Speaker(torch.nn.Module):
 
         self.temp = args.temp
         self.hard = args.hard
-        #self.tt = torch
         self.tt = torch if args.cpu else torch.cuda
         self.tt_ = torch
         self.seq_len = args.seq_len[lang]
@@ -227,25 +199,18 @@ class Speaker(torch.nn.Module):
         # caps_in_lens : (batch_size)
         batch_size = caps_in.size()[0]
         seq_len = caps_in.size()[1]
-        
-        #print(caps_in[:,0:1].dtype, caps_in[:,0:1].size())
         h_img = h_img.view(1, batch_size, self.D_hid).repeat(self.num_layers, 1, 1)
         caps_in_emb = self.emb(caps_in) # (batch_size, seq_length, D_emb)
         caps_in_emb = self.drop(caps_in_emb)
 
         pack = torch.nn.utils.rnn.pack_padded_sequence(caps_in_emb, caps_in_lens, batch_first=True)
-
-        # input (batch_size, seq_len, D_emb)
-        # h0 (num_layers, batch_size, D_hid)
         output, _ = self.rnn(pack, h_img)
         # output (batch_size, seq_len, D_hid)
         # hn (num_layers, batch_size, D_hid)
         output_data = output.data
         logits = self.hid_to_voc( output_data )
         unpacked, _ = torch.nn.utils.rnn.pad_packed_sequence(output, batch_first=True)
-        # unpacked (batch_size, seq_len, D_hid)
         unpacked_logits = self.hid_to_voc( unpacked.contiguous().view(-1, self.D_hid) )
-        # unpacked (batch_size * seq_len, vocab_size)
 
         if sample_how == "argmax":
             _, comm_label = torch.max(unpacked_logits, 1)
@@ -305,14 +270,14 @@ class Speaker(torch.nn.Module):
         dead = [ [] for ii in range(batch_size) ]
         num_dead = [0 for ii in range(batch_size)]
         ft = self.tt.LongTensor( [ self.w2i[ "<BOS>" ] for ii in range(batch_size) ] )[:,None]
-        input = self.emb( Variable( ft ))#.to("cuda:0") ) # (batch_size, 1, D_emb)
+        input = self.emb( Variable( ft ))
         hid = h_ctx[None,:,:].repeat(self.num_layers, 1, 1) # hid : (num_layers, batch_size, D_hid)
         for tidx in range(self.seq_len):
             output, hid = self.rnn( input, hid )
             cur_prob = F.log_softmax( self.hid_to_voc( output.view(-1, self.D_hid) ))\
                     .view(batch_size, -1, voc_size).data # (batch_size, width, vocab_size)
             pre_prob =self.tt.FloatTensor( [ [ x[0] for x in ee ] for ee in live ] ).view(batch_size, -1, 1)
-            total_prob = cur_prob + pre_prob #.repeat(1,1,voc_size) # (batch_size, width, voc_size)
+            total_prob = cur_prob + pre_prob 
             total_prob = total_prob.view(batch_size, -1)
             _, topi_s = total_prob.topk( width, dim=1)
             topv_s = cur_prob.view(batch_size, -1).gather(1, topi_s)
