@@ -116,7 +116,7 @@ class NMT(torch.nn.Module):
             gen_idx = self.decoder.beam_search(concept, args.beam_width, args.norm_pow)
         elif args.decode_how == "greedy":
             gen_idx = self.decoder.sample(concept, True)
-        trg = decode(gen_idx, self.i2w['trg'],args.flores)
+        trg = decode(gen_idx, self.i2w['trg'])
         return trg
 
 
