@@ -212,105 +212,73 @@ if __name__ == '__main__':
         args.to_drop.append("bhd")
     args.to_drop.sort()
     
+    print("LOAD BPE TOKENS AND DICT")
 
-    if args.flores:
-        print("FLORES : LOAD BPE TOKENS AND DICT")
-        w2i_en, i2w_en, w2i_l2, i2w_l2 = flores_return_w2i_i2w(args.lrlang)
+
+    if (args.src == "en" and args.trg == "de") or (args.src == "de" and args.trg == "en"):
+        (w2i_src, i2w_src, w2i_trg, i2w_trg) = [torch.load(data_path + 'dics/{}'.format(x)) for x in "{}_w2i {}_i2w {}_w2i {}_i2w".format(args.src, args.src, args.trg, args.trg).split()]
+    elif (args.src == "en" and args.trg == "cs") or (args.src == "cs" and args.trg == "en"):
+        (w2i_src, i2w_src, w2i_trg, i2w_trg) = [torch.load(data_path + 'dics_encs/{}'.format(x)) for x in "{}_w2i {}_i2w {}_w2i {}_i2w".format(args.src, args.src, args.trg, args.trg).split()]
+    elif (args.src == "en" and args.trg == "ro") or (args.src == "ro" and args.trg == "en"):
+        (w2i_src, i2w_src, w2i_trg, i2w_trg) = [torch.load(data_path + 'dics_enro/{}'.format(x)) for x in "{}_w2i {}_i2w {}_w2i {}_i2w".format(args.src, args.src, args.trg, args.trg).split()]
+    elif (args.src == "en" and args.trg == "fr") or (args.src == "fr" and args.trg == "en"):
+        (w2i_src, i2w_src, w2i_trg, i2w_trg) = [torch.load(data_path + 'dics_enfr/{}'.format(x)) for x in "{}_w2i {}_i2w {}_w2i {}_i2w".format(args.src, args.src, args.trg, args.trg).split()]
     else:
-        if args.w2v:
-            print("LOAD WORD TOKENS AND DICT:")
-            w2i_en, i2w_en, w2i_l2, i2w_l2 = final_return_w2i_i2w()
-        else:
-            print("LOAD BPE TOKENS AND DICT")
-
-            if (args.src == "en" and args.trg == "de") or (args.src == "de" and args.trg == "en"):
-                (w2i_src, i2w_src, w2i_trg, i2w_trg) = [torch.load(data_path + 'dics/{}'.format(x)) for x in "{}_w2i {}_i2w {}_w2i {}_i2w".format(args.src, args.src, args.trg, args.trg).split()]
-            elif (args.src == "en" and args.trg == "cs") or (args.src == "cs" and args.trg == "en"):
-                (w2i_src, i2w_src, w2i_trg, i2w_trg) = [torch.load(data_path + 'dics_encs/{}'.format(x)) for x in "{}_w2i {}_i2w {}_w2i {}_i2w".format(args.src, args.src, args.trg, args.trg).split()]
-            elif (args.src == "en" and args.trg == "ro") or (args.src == "ro" and args.trg == "en"):
-                (w2i_src, i2w_src, w2i_trg, i2w_trg) = [torch.load(data_path + 'dics_enro/{}'.format(x)) for x in "{}_w2i {}_i2w {}_w2i {}_i2w".format(args.src, args.src, args.trg, args.trg).split()] 
-            elif (args.src == "en" and args.trg == "fr") or (args.src == "fr" and args.trg == "en"):
-                (w2i_src, i2w_src, w2i_trg, i2w_trg) = [torch.load(data_path + 'dics_enfr/{}'.format(x)) for x in "{}_w2i {}_i2w {}_w2i {}_i2w".format(args.src, args.src, args.trg, args.trg).split()]
-            else:
-                (w2i_src, i2w_src, w2i_trg, i2w_trg) = [torch.load(data_path + 'dics_entr/{}'.format(x)) for x in "{}_w2i {}_i2w {}_w2i {}_i2w".format(args.src, args.src, args.trg, args.trg).split()]
+        (w2i_src, i2w_src, w2i_trg, i2w_trg) = [torch.load(data_path + 'dics_entr/{}'.format(x)) for x in "{}_w2i {}_i2w {}_w2i {}_i2w".format(args.src, args.src, args.trg, args.trg).split()]
 
 
 
-    if args.nn_baseline:
-        (train_org_en, valid_org_en, test_org_en) = [torch.load(data_path + 'half_labs/{}'.format(x)) \
-            for x in "{}_train_org {}_valid_org {}_test_org".format("en", "en", "en").split()]
-        (train_org_l2, valid_org_l2, test_org_l2) = [torch.load(data_path + 'half_labs/{}'.format(x)) \
-            for x in "{}_train_org {}_valid_org {}_test_org".format(args.l2, args.l2, args.l2).split()]
-        (en_to_l2, l2_to_en) = [torch.load(data_path + "half_labs_nn_aligned/{}".format(x)) \
-            for x in "en2{} {}2en".format(args.l2, args.l2).split()]
 
-        if args.src == "en":
-            train_org_l2  = np.array(train_org_l2)[ np.array(en_to_l2) ].tolist()
-        elif args.trg == "en":
-            train_org_en  = np.array(train_org_en)[ np.array(l2_to_en) ].tolist()
-        model = "nmt_nn_baseline"
-
+    print("LOAD BPE DATA")
+    if (args.src == "en" and args.trg == "de") or (args.src == "de" and args.trg == "en"):
+        (train_org_src_, valid_org_src, test_org_src) = [torch.load(data_path + 'full_labs/{}'.format(x)) \
+            for x in "{}_train_org {}_valid_org {}_test_org".format(args.src, args.src, args.src).split()]
+        (train_org_trg_, valid_org_trg, test_org_trg) = [torch.load(data_path + 'full_labs/{}'.format(x)) \
+            for x in "{}_train_org {}_valid_org {}_test_org".format(args.trg, args.trg, args.trg).split()]
+    elif (args.src == "en" and args.trg == "cs") or (args.src == "cs" and args.trg == "en"):
+        (train_org_src_, valid_org_src, test_org_src) = [torch.load(data_path + 'full_labs_encs/{}'.format(x)) \
+            for x in "{}_train_org {}_valid_org {}_test_org".format(args.src, args.src, args.src).split()]
+        (train_org_trg_, valid_org_trg, test_org_trg) = [torch.load(data_path + 'full_labs_encs/{}'.format(x)) \
+            for x in "{}_train_org {}_valid_org {}_test_org".format(args.trg, args.trg, args.trg).split()]
+    elif (args.src == "en" and args.trg == "ro") or (args.src == "ro" and args.trg == "en"):
+        (train_org_src_, valid_org_src, test_org_src) = [torch.load(data_path + 'full_labs_enro/{}'.format(x)) \
+            for x in "{}_train_org {}_valid_org {}_test_org".format(args.src, args.src, args.src).split()]
+        (train_org_trg_, valid_org_trg, test_org_trg) = [torch.load(data_path + 'full_labs_enro/{}'.format(x)) \
+            for x in "{}_train_org {}_valid_org {}_test_org".format(args.trg, args.trg, args.trg).split()]
+    elif (args.src == "en" and args.trg == "fr") or (args.src == "fr" and args.trg == "en"):
+        (train_org_src_, valid_org_src, test_org_src) = [torch.load(data_path + 'full_labs_enfr/{}'.format(x)) \
+            for x in "{}_train_org {}_valid_org {}_test_org".format(args.src, args.src, args.src).split()]
+        (train_org_trg_, valid_org_trg, test_org_trg) = [torch.load(data_path + 'full_labs_enfr/{}'.format(x)) \
+            for x in "{}_train_org {}_valid_org {}_test_org".format(args.trg, args.trg, args.trg).split()]
     else:
-        if args.flores:
-            print("LOAD FLORES DATASET")
-            train_org_en_, valid_org_en, test_org_en, train_org_l2_, valid_org_l2, test_org_l2 = flores_final_return_data(w2i_en, i2w_en, w2i_l2, i2w_l2, args.lrlang)
-        else:
-            if not args.w2v:
-                print("LOAD BPE DATA")
-                if (args.src == "en" and args.trg == "de") or (args.src == "de" and args.trg == "en"):
-                    (train_org_src_, valid_org_src, test_org_src) = [torch.load(data_path + 'full_labs/{}'.format(x)) \
-                        for x in "{}_train_org {}_valid_org {}_test_org".format(args.src, args.src, args.src).split()]
-                    (train_org_trg_, valid_org_trg, test_org_trg) = [torch.load(data_path + 'full_labs/{}'.format(x)) \
-                        for x in "{}_train_org {}_valid_org {}_test_org".format(args.trg, args.trg, args.trg).split()]
-                elif (args.src == "en" and args.trg == "cs") or (args.src == "cs" and args.trg == "en"):
-                    (train_org_src_, valid_org_src, test_org_src) = [torch.load(data_path + 'full_labs_encs/{}'.format(x)) \
-                        for x in "{}_train_org {}_valid_org {}_test_org".format(args.src, args.src, args.src).split()]
-                    (train_org_trg_, valid_org_trg, test_org_trg) = [torch.load(data_path + 'full_labs_encs/{}'.format(x)) \
-                        for x in "{}_train_org {}_valid_org {}_test_org".format(args.trg, args.trg, args.trg).split()] 
-                elif (args.src == "en" and args.trg == "ro") or (args.src == "ro" and args.trg == "en"):
-                    (train_org_src_, valid_org_src, test_org_src) = [torch.load(data_path + 'full_labs_enro/{}'.format(x)) \
-                        for x in "{}_train_org {}_valid_org {}_test_org".format(args.src, args.src, args.src).split()]
-                    (train_org_trg_, valid_org_trg, test_org_trg) = [torch.load(data_path + 'full_labs_enro/{}'.format(x)) \
-                        for x in "{}_train_org {}_valid_org {}_test_org".format(args.trg, args.trg, args.trg).split()]
-                elif (args.src == "en" and args.trg == "fr") or (args.src == "fr" and args.trg == "en"):
-                    (train_org_src_, valid_org_src, test_org_src) = [torch.load(data_path + 'full_labs_enfr/{}'.format(x)) \
-                        for x in "{}_train_org {}_valid_org {}_test_org".format(args.src, args.src, args.src).split()]
-                    (train_org_trg_, valid_org_trg, test_org_trg) = [torch.load(data_path + 'full_labs_enfr/{}'.format(x)) \
-                        for x in "{}_train_org {}_valid_org {}_test_org".format(args.trg, args.trg, args.trg).split()]
-                else:
-                    (train_org_src_, valid_org_src, test_org_src) = [torch.load(data_path + 'full_labs_entr/{}'.format(x)) \
-                        for x in "{}_train_org {}_valid_org {}_test_org".format(args.src, args.src, args.src).split()]
-                    (train_org_trg_, valid_org_trg, test_org_trg) = [torch.load(data_path + 'full_labs_entr/{}'.format(x)) \
-                        for x in "{}_train_org {}_valid_org {}_test_org".format(args.trg, args.trg, args.trg).split()]
+        (train_org_src_, valid_org_src, test_org_src) = [torch.load(data_path + 'full_labs_entr/{}'.format(x)) \
+            for x in "{}_train_org {}_valid_org {}_test_org".format(args.src, args.src, args.src).split()]
+        (train_org_trg_, valid_org_trg, test_org_trg) = [torch.load(data_path + 'full_labs_entr/{}'.format(x)) \
+            for x in "{}_train_org {}_valid_org {}_test_org".format(args.trg, args.trg, args.trg).split()]
 
 
-            else:
-                print("LOAD WORD TOKENS AND SENTENCES:")
-                train_org_en_, valid_org_en, test_org_en, train_org_l2_, valid_org_l2, test_org_l2 = final_return_data(w2i_en, i2w_en, w2i_l2, i2w_l2)
+    print("mean length train src:",sum([len(s[0]) for s in train_org_src_]) / len(train_org_src_))
+    print("mean length train trg:",sum([len(s[0]) for s in train_org_trg_]) / len(train_org_trg_))
 
+    print("mean length valid src:",sum([len(s[0]) for s in valid_org_src]) / len(valid_org_src))
+    print("mean length test src:",sum([len(s[0]) for s in test_org_src]) / len(test_org_src))
+    print("mean length valid trg:",sum([len(s[0]) for s in valid_org_trg]) / len(valid_org_trg))
+    print("mean length test trg:",sum([len(s[0]) for s in test_org_trg]) / len(test_org_trg))
 
-        print("mean length train src:",sum([len(s[0]) for s in train_org_src_]) / len(train_org_src_))
-        print("mean length train trg:",sum([len(s[0]) for s in train_org_trg_]) / len(train_org_trg_))
+    print("max length valid src:",max([len(s[0]) for s in valid_org_src]))
+    print("max length test src:",max([len(s[0]) for s in test_org_src]))
+    print("max length valid trg:",max([len(s[0]) for s in valid_org_trg]))
+    print("max length test trg:",max([len(s[0]) for s in test_org_trg]))
 
-        print("mean length valid src:",sum([len(s[0]) for s in valid_org_src]) / len(valid_org_src))
-        print("mean length test src:",sum([len(s[0]) for s in test_org_src]) / len(test_org_src))
-        print("mean length valid trg:",sum([len(s[0]) for s in valid_org_trg]) / len(valid_org_trg))
-        print("mean length test trg:",sum([len(s[0]) for s in test_org_trg]) / len(test_org_trg))
-
-        print("max length valid src:",max([len(s[0]) for s in valid_org_src]))
-        print("max length test src:",max([len(s[0]) for s in test_org_src]))
-        print("max length valid trg:",max([len(s[0]) for s in valid_org_trg]))
-        print("max length test trg:",max([len(s[0]) for s in test_org_trg]))
-
-        print("min length valid src:",min([len(s[0]) for s in valid_org_src]))
-        print("min length test src:",min([len(s[0]) for s in test_org_src]))
-        print("min length valid trg:",min([len(s[0]) for s in valid_org_trg]))
-        print("min length test trg:",min([len(s[0]) for s in test_org_trg]))
-        model = "nmt"
-        indices_ = random.permutation(len(train_org_src_))[:500]
-        print("train data:", indices_[:10])
-        train_org_src = [train_org_src_[i] for i in indices_]
-        train_org_trg = [train_org_trg_[i] for i in indices_]
+    print("min length valid src:",min([len(s[0]) for s in valid_org_src]))
+    print("min length test src:",min([len(s[0]) for s in test_org_src]))
+    print("min length valid trg:",min([len(s[0]) for s in valid_org_trg]))
+    print("min length test trg:",min([len(s[0]) for s in test_org_trg]))
+    model = "nmt"
+    indices_ = random.permutation(len(train_org_src_))[:500]
+    print("train data:", indices_[:10])
+    train_org_src = [train_org_src_[i] for i in indices_]
+    train_org_trg = [train_org_trg_[i] for i in indices_]
     print("data_path :", data_path)
     args.vocab_size_src = len(w2i_src)
     args.vocab_size_trg = len(w2i_trg)
