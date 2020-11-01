@@ -1,5 +1,4 @@
 import sys
-#import commands
 import subprocess as commands
 import codecs
 import copy
@@ -11,7 +10,6 @@ import numpy as np
 
 import torch
 import torch.nn.functional as F
-#from torch.utils.serialization import load_lua
 from torchfile import load as load_lua
 import torch.nn as nn
 import torch.autograd as autograd
@@ -357,8 +355,6 @@ if __name__ == '__main__':
     train_org_src = trim_caps(train_org_src, 3, args.seq_len_src * 20)
     train_org_trg = trim_caps(train_org_trg, 3, args.seq_len_trg * 20)
 
-
-    ###
     if args.w2v:
         print("Loading Pretrained W2V EMB")
         en_embed, l2_embed, en_oow, l2_oow  =  pretrained_emb(i2w_en,i2w_l2)
@@ -366,7 +362,6 @@ if __name__ == '__main__':
         args.l2_embed = torch.tensor(l2_embed).cuda(args.gpuid)
 
         print("en_oow, l2_oow", len(en_oow), len(l2_oow))
-    ###
 
 
     train_labels = { "src":train_org_src, "trg":train_org_trg }
@@ -450,12 +445,10 @@ if __name__ == '__main__':
         in_params.append(param)
         in_names.append(name)
         print(name, param.size())
-    #print("in_params : ", in_names)
     in_size = [x.size() for x in in_params]
     in_sum = sum([np.prod(x) for x in in_size])
 
     print("IN    : {} params".format(in_sum))
-#    print(print_params_nmt(in_names, in_size))
 
     loss_fn = {'xent':nn.CrossEntropyLoss(), 'mse':nn.MSELoss(), 'mrl':nn.MarginRankingLoss(), 'mlml':nn.MultiLabelMarginLoss(), 'mml':nn.MultiMarginLoss()}
     tt = torch
