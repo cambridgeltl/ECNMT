@@ -102,20 +102,11 @@ if __name__ == '__main__':
                     help="Which GPU to run")
     parser.add_argument("--dataset", type=str,  # NOTE beam / greedy
                     help="Which GPU to run")
-    parser.add_argument("--task", type=int,
-                    help="Which GPU to run")
-    parser.add_argument("--flores", type=int, default=False,
-                    help="Which GPU to run")
-    parser.add_argument("--lrlang", type=str, default="ne",  # NOTE beam / greedy
-                    help="Which GPU to run")
+
     parser.add_argument("--src", type=str,  # NOTE beam / greedy
                     help="Which GPU to run")
     parser.add_argument("--trg", type=str,  # NOTE beam / greedy
                     help="Which GPU to run")
-
-    parser.add_argument("--nn_baseline", action="store_true", default=False,
-                    help="Hard Gumbel-Softmax Sampling.")
-
     parser.add_argument("--decode_how", type=str, default="beam",  # NOTE beam / greedy
                     help="Which GPU to run")
     parser.add_argument("--beam_width", type=int, default=12,
