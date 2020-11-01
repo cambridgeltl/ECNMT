@@ -147,15 +147,9 @@ def print_params(names, sizes):
     return ss
 
 def print_captions(gen_indices, i2w, joiner):
-    #print("i2w :", i2w.type(), i2w)
     return [ joiner.join( [i2w[ii] for ii in gen_idx] ).replace("@@ ", "") for gen_idx in gen_indices]
 
 def decode(gen_indices, i2w):
-    #print("i2w :", type(i2w), i2w)
-    
-
-    #print("gen_indices :", gen_indices[0],gen_indices[0][0].type())
-    #gen_indices = [torch.tensor(gen_idx).tolist() for gen_idx in gen_indices]
     
     return [ " ".join( [i2w[ii] for ii in gen_idx] ).replace("@@ ", "") for gen_idx in gen_indices]
 
@@ -184,7 +178,6 @@ def max_logit_to_onehot(logits):
     return onehot, max_idx.data
 
 def sample_logit_to_onehot(logits):
-    #idx = torch.multinomial(logits, 1, replacement=True)
     indices = torch.multinomial(logits, 1)
     onehot = torch.FloatTensor(logits.size())
     onehot.zero_()
@@ -206,8 +199,6 @@ def logit_to_top_k(logits, y, k): # logits: [batch_size, num_of_classes]
     y_big = y.expand(indices.size())
     eq = torch.eq(indices, y_big)
     eq2 = torch.sum(eq, 1)
-    #acc = float(eq2.sum().data[0]) / float(eq2.nelement())
-    #return acc
     return eq2.sum().data[0], eq2.nelement()
 
 def loss_and_acc(logits, labels, loss_fn):
@@ -274,14 +265,10 @@ def print_loss_(epoch, alpha, avg_loss_dict, mode="train"):
 
 def print_loss(epoch, alpha, avg_loss_dict, mode="train"):
     prt_msg = "epoch {:5d} {} ".format(epoch, mode)
-    #avg_loss_dict = get_avg_from_loss_dict(loss_dict)
-    #for k1, v1 in avg_loss_dict.iteritems():
     for agent in "l1 l2".split():
         prt_msg += "| " # en_agent / fr_agent
-        #for k2, v2 in v1.iteritems():
         for person in "spk lsn".split():
             prt_msg += " {}_{}".format(agent, person) # spk / lsn
-            #for k3, v3 in v2.iteritems(): # loss / acc
             if person == "spk":
                 prt_msg += " {:.3f}".format(avg_loss_dict[agent][person]["loss"])
             elif person == "lsn":
