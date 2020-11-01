@@ -7,7 +7,6 @@ from collections import OrderedDict
 import time
 import torch
 from torch.autograd import Variable
-#from torch.utils.serialization import load_lua
 from torchfile import load as load_lua
 
 from util import *
@@ -20,7 +19,6 @@ def next_batch_joint(images, batch_size, num_dist, tt):
     total_indices = []
     keys = range(len(images))
     assert len(keys) >= num_dist
-    #a = time.time()
     for batch_idx in range(batch_size):
 
         img_indices = random.permutation(len(images))[:num_dist]
