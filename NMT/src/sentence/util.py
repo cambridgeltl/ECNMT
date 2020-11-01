@@ -69,8 +69,7 @@ def cal_new_loss(current_dict, pretrained_dict, num_iter = 1):
     num_of_para = 0
     for it in range(num_iter):
         for item in pretrained_dict.keys():
-            #print(item)
-            if True: #'bias' not in item:
+            if True: 
                 diff = pretrained_dict[item] - current_dict[item]
                 k = 1
                 for i in diff.size():
