@@ -15,11 +15,15 @@ This method is a form of unsupervised knowledge transfer in the absence of lingu
 ## Data
 To download COCO image features and preprocessed EN-DE (DE-EN) data, please follow the [Translagent](https://github.com/facebookresearch/translagent) repo, where image features are located in "./coco_new/half_feats/" and EN-DE (DE-EN) data are in "./multi30k_reorg/task1/".
 
-The preprocessed data for EN-CS (CS-EN), EN-RO (RO-EN) and EN-FR (FR-EN), and EC pertrained models for all four language pairs can be downloaded via a Google Drive [link](https://drive.google.com/drive/folders/1sMWfvfRf9uj-LJJTye7XCixsES1EPslr?usp=sharing.).
-## Pretrained Models
+| Dictionaries | Train Sentence Pairs | Reference Translations |
+| ------------ | -------------------- | ---------------------- |
+|  [EN-CS & CS-EN](https://drive.google.com/drive/folders/1yU-eEWE7QbfUho91Z5BvbfNWwuhnxEUL?usp=sharing) |  [EN-CS & CS-EN](https://drive.google.com/drive/folders/1X-AMqvo3sJdOrYtX6svb6xjapEuqv9l2?usp=sharing) | [EN-CS & CS-EN](https://drive.google.com/drive/folders/1jvq-iJS-Yo3zRz3wh4BMGJOwkGMe9pAg?usp=sharing) |
+|  [EN-RO & RO-EN](https://drive.google.com/drive/folders/1c9MEgKBHkOs8mLnwelWnjUbNXZlXqWb6?usp=sharing) |  [EN-RO & RO-EN](https://drive.google.com/drive/folders/1NAFQ8GwV4CVGcTLKLXkJnEn3HI9IalgL?usp=sharing) | [EN-RO & RO-EN](https://drive.google.com/drive/folders/1Tc-1wSqoe7K4HXBiQzOc1gL1lp0IS6Cg?usp=sharing) |
+|  [EN-FR & FR-EN](https://drive.google.com/drive/folders/1R3jvKwjFdzGNpqLSeChjeB7HoaRwcz5d?usp=sharing) |  [EN-FR & FR-EN](https://drive.google.com/drive/folders/1B7VLWSwQPOVZL96Q6t2jNcpzzF1ejk1m?usp=sharing) | [EN-FR & FR-EN](https://drive.google.com/drive/folders/1VP3DRNtCw1SimTeWJp--ARYBdklU5i8X?usp=sharing) |
 
-### Emergent Communication Pretraining
-| Source | Target |
+
+## Pretrained Models for Emergent Communication
+| Source / Target | Target / Source |
 |---|---|
 | [EN](https://drive.google.com/file/d/1PiAdeUuSjjlgfLMkEmTdD2EtPuPwUgq4/view?usp=sharing) | [DE](https://drive.google.com/file/d/16_pOVlQhqHnjv_LuyaAzYCHhRiCKrCvP/view?usp=sharing) |
 | [EN](https://drive.google.com/file/d/1z0JbwMxgB32CYXn99RbdhHreZpzeME-1/view?usp=sharing) | [CS](https://drive.google.com/file/d/1WfQzwItzMEHnd0jzwSPFx1K806TMLjku/view?usp=sharing) |
@@ -57,4 +61,8 @@ sh run_training.sh
     
 ## Acknowledgements
 
-Part of the code is based on https://github.com/facebookresearch/translagent. The original datasets for our experiments include [MS COCO](http://cocodataset.org/#home) for Emergent Communication pretraining, and [Multi30k Task 1](https://github.com/multi30k/dataset) and [Europarl](http://www.statmt.org/europarl/v7/) for NMT fine-tuning. Text preprcessing is based on [Moses](https://github.com/moses-smt/mosesdecoder "Moses") and [Subword-NMT](https://github.com/rsennrich/subword-nmt "Subword-NMT"). Please cite them accordingly.
+Part of the code is based on [translagent](https://github.com/facebookresearch/translagent). 
+
+The datasets for our experiments include [MS COCO](http://cocodataset.org/#home) for Emergent Communication pretraining, [Multi30k Task 1](https://github.com/multi30k/dataset) and [Europarl](http://www.statmt.org/europarl/v7/) for NMT fine-tuning. Text preprocessing is based on [Moses](https://github.com/moses-smt/mosesdecoder "Moses") and [Subword-NMT](https://github.com/rsennrich/subword-nmt "Subword-NMT"). 
+
+Please cite these resources accordingly.
