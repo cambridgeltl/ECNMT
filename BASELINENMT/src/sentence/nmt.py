@@ -1,12 +1,4 @@
-# Copyright (c) 2017-present, Facebook, Inc.
-# All rights reserved.
-#
-# This source code is licensed under the license found in the
-# LICENSE file in the root directory of this source tree.
-#
-
 import sys
-#import commands
 import subprocess as commands
 import codecs
 import copy
@@ -18,7 +10,6 @@ import numpy as np
 
 import torch
 import torch.nn.functional as F
-#from torch.utils.serialization import load_lua
 from torchfile import load as load_lua
 import torch.nn as nn
 import torch.autograd as autograd
@@ -34,10 +25,9 @@ random.seed(1234)
 
 def translate(args, agent, labels, i2w, batch_size, which, tt):
     src_lab_org, trg_lab_org = labels["src"], labels["trg"]
-    #image_ids = random.choice( range(len(src_lab_org)), batch_size, replace=False ) # (num_dist)
     image_ids = range(batch_size)
-    src_cap_ids = [random.randint(0, len(src_lab_org[ image_ids[idx] ])) for idx in range(batch_size)  ]  # choose an object
-    trg_cap_ids = [random.randint(0, len(trg_lab_org[ image_ids[idx] ])) for idx in range(batch_size)  ]  # choose an object
+    src_cap_ids = [random.randint(0, len(src_lab_org[ image_ids[idx] ])) for idx in range(batch_size)  ]  
+    trg_cap_ids = [random.randint(0, len(trg_lab_org[ image_ids[idx] ])) for idx in range(batch_size)  ]  
 
     src_caps = np.array([src_lab_org[image_id][caption_id] for (image_id, caption_id) in zip(image_ids, src_cap_ids)])
     trg_caps = np.array([trg_lab_org[image_id][caption_id] for (image_id, caption_id) in zip(image_ids, trg_cap_ids)])
@@ -61,8 +51,6 @@ def translate(args, agent, labels, i2w, batch_size, which, tt):
 
 def valid_bleu(valid_labels, model, args, tt, dir_dic, which_dataset="valid"):
     src = valid_labels["src"]
-    #print("src:",src[:10])
-    #print("trg:",valid_labels["trg"][:10])
     batch_size = 200
     num = 1 if (args.dataset == "multi30k" and args.task == 1) else 5
     num_imgs = len(src)
@@ -77,9 +65,7 @@ def valid_bleu(valid_labels, model, args, tt, dir_dic, which_dataset="valid"):
             inverse = np.argsort(l2_cap_lens)
 
             l2_caps = l2_caps[l2_cap_lens]
-            #print("l2_caps : ", l2_caps[:2])
             en_hyp = model.translate(l2_caps, args)
-            #print("en_hyp : ", en_hyp[:2])
             en_hyp = [en_hyp[idx] for idx in inverse]
             model_gen[cap_idx].extend( en_hyp )
 
@@ -87,8 +73,6 @@ def valid_bleu(valid_labels, model, args, tt, dir_dic, which_dataset="valid"):
     for idx in range(num_imgs):
         for i2 in range(num):
             final_out.append(model_gen[i2][idx])
-    #print("final_out :", len(final_out))
-    #print(final_out[:10])
     destination = dir_dic["path_dir"] + "{}_hyp_{}".format(which_dataset, args.decode_how)
     f = codecs.open(destination, 'wb', encoding="utf8")
     f.write( u'\r\n'.join( final_out ) )
@@ -107,8 +91,6 @@ def valid_bleu(valid_labels, model, args, tt, dir_dic, which_dataset="valid"):
 
 
     else:
-        #/workspace/flores/data/wiki_si_en_bpe5000/test.ref.en
-        #'/workspace/flores/data/wiki_{}_en_bpe5000/{}.ref.en'.format(args.lang, which_dataset)
         command = 'perl {}/multi-bleu.perl {} < {}'.format(scr_path(), '/workspace/flores/data/wiki_{}_en_bpe2500/{}.ref.en'.format(args.lrlang, which_dataset) , destination )
     bleu = commands.getstatusoutput(command)[1]
     print(which_dataset, bleu[ bleu.find("BLEU"): ])
@@ -246,8 +228,6 @@ if __name__ == '__main__':
             w2i_en, i2w_en, w2i_l2, i2w_l2 = final_return_w2i_i2w()
         else:
             print("LOAD BPE TOKENS AND DICT")
-            #(w2i_en, i2w_en, w2i_l2, i2w_l2) = [torch.load(data_path + 'dics/{}'.format(x)) for x in "{}_w2i {}_i2w {}_w2i {}_i2w".format("en", "en", args.l2, args.l2).split()]
-
 
             if (args.src == "en" and args.trg == "de") or (args.src == "de" and args.trg == "en"):
                 (w2i_src, i2w_src, w2i_trg, i2w_trg) = [torch.load(data_path + 'dics/{}'.format(x)) for x in "{}_w2i {}_i2w {}_w2i {}_i2w".format(args.src, args.src, args.trg, args.trg).split()]
@@ -393,7 +373,6 @@ if __name__ == '__main__':
     in_sum = sum([np.prod(x) for x in in_size])
 
     print("IN    : {} params".format(in_sum))
-#    print(print_params_nmt(in_names, in_size))
 
     loss_fn = {'xent':nn.CrossEntropyLoss(), 'mse':nn.MSELoss(), 'mrl':nn.MarginRankingLoss(), 'mlml':nn.MultiLabelMarginLoss(), 'mml':nn.MultiMarginLoss()}
     tt = torch
@@ -460,8 +439,6 @@ if __name__ == '__main__':
                     print("Best BLEU {}".format(best_bleu))
                     break
 
-#        if epoch % args.translate_every == 0:
-#            translate(args, model, valid_labels, args.i2w, 5, "VALID", tt)
 
         if epoch > 0 and epoch % args.save_every == 0:
             path_results = open( path_dir + "results", "wb" )
