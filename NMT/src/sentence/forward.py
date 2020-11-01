@@ -20,31 +20,24 @@ random.seed(millis)
 def forward_nmt(labels, model, loss_dict, args, loss_fn, tt, epoch):
     src_caps_in, src_caps_in_lens, trg_sorted_idx, trg_caps_in, trg_caps_in_lens, trg_caps_out = next_batch_nmt(labels["src"], labels["trg"], args.batch_size, tt)
     dec_logits = model(src_caps_in, src_caps_in_lens, trg_sorted_idx, trg_caps_in, trg_caps_in_lens)
-    #current_dict = model.state_dict()
 
     if args.dif_loss:
         current_dict = {}
         for name, para in model.named_parameters():
             current_dict[name] = para
         loss_aux = cal_new_loss(current_dict, args.pretrained_dict)
-        #loss_aux = cal_new_loss(current_dict, args.pretrained_dict, model)
         loss_dict['loss_aux'].update(loss_aux.data)
     else:
         loss_dict['loss_aux'].update(0.0)
     loss_seq = loss_fn['xent'](dec_logits, trg_caps_out) 
-    #print("loss_seq :", loss_seq, "loss_aux :", loss_aux)
-    #loss_dict['loss'].update(loss.data)
+
     loss_dict['loss_seq'].update(loss_seq.data)
-    #loss_dict['loss_aux'].update(loss_aux.data)
  
     if args.dif_loss:
 
         alpha = pow(0.998,epoch)*5.0
 #        alpha = 5.0/(epoch+1.0)
-#        alpha = pow(0.998,epoch) * 5.0
-        #alpha = 10.0/(epoch+1.0) #pow(0.998,epoch)*10
-#        alpha = 0.05
-        #alpha = 100
+
         loss = loss_seq + alpha * loss_aux 
     else:
         loss = loss_seq
