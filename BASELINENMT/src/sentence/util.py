@@ -432,20 +432,13 @@ def print_params(names, sizes):
 
     return ss
 
-def print_captions(gen_indices, i2w, joiner,flores):
-    if flores:
-        seqs = [ " ".join( [i2w[ii] for ii in gen_idx] ).replace("@@ ", "") for gen_idx in gen_indices]
-        return [" ".join(["".join(w.split()) for w in seq.split("▁")]).strip() for seq in seqs]
-    else:
-        return [ joiner.join( [i2w[ii] for ii in gen_idx] ).replace("@@ ", "") for gen_idx in gen_indices]
+def print_captions(gen_indices, i2w, joiner):
 
-def decode(gen_indices, i2w, flores):
+    return [ joiner.join( [i2w[ii] for ii in gen_idx] ).replace("@@ ", "") for gen_idx in gen_indices]
 
-    if flores:
-        seqs = [ " ".join( [i2w[ii] for ii in gen_idx] ).replace("@@ ", "") for gen_idx in gen_indices]
-        return [" ".join(["".join(w.split()) for w in seq.split("▁")]).strip() for seq in seqs]   
-    else:
-        return [ " ".join( [i2w[ii] for ii in gen_idx] ).replace("@@ ", "") for gen_idx in gen_indices]
+def decode(gen_indices, i2w):
+
+    return [ " ".join( [i2w[ii] for ii in gen_idx] ).replace("@@ ", "") for gen_idx in gen_indices]
 
 def pick(i1, i2, whichs):
     res = []
