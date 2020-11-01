@@ -52,7 +52,7 @@ def translate(args, agent, labels, i2w, batch_size, which, tt):
 def valid_bleu(valid_labels, model, args, tt, dir_dic, which_dataset="valid"):
     src = valid_labels["src"]
     batch_size = 200
-    num = 1 if (args.dataset == "multi30k" and args.task == 1) else 5
+    num = 1
     num_imgs = len(src)
     model_gen = [[] for x in range(num)]
     for cap_idx in range(num):
@@ -197,8 +197,8 @@ if __name__ == '__main__':
         task_path = args.dataset
         args.l2 = "jp"
     elif args.dataset == "multi30k":
-        data_path = multi30k_reorg_path() + "task{}/".format(args.task)
-        task_path = "{}_task{}".format(args.dataset, args.task)
+        data_path = multi30k_reorg_path() + "task{}/".format(1)
+        task_path = "{}_task{}".format(args.dataset, 1)
         args.l2 = "de"
 
     args.to_drop = []
