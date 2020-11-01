@@ -1,5 +1,4 @@
 import sys
-#import commands
 import subprocess as commands
 import codecs
 import copy
@@ -13,14 +12,12 @@ import torch
 import torch.nn as nn
 import torch.autograd as autograd
 from torch.autograd import Variable
-#from torch.utils.serialization import load_lua
 from torchfile import load as load_lua
 
 from util import *
 from models import *
 from dataloader import *
 from forward import *
-#from time import time
 random = np.random
 random.seed(1234)
 
@@ -125,7 +122,6 @@ if __name__ == '__main__':
                     help="Hard Gumbel-Softmax Sampling.")
     parser.add_argument("--no_terminal", action="store_true", default=False,
                     help="Hard Gumbel-Softmax Sampling.")
-    #torch.backends.cudnn.benachmark = False
     start_time = time.time()
     args, remaining_args = parser.parse_known_args()
     assert remaining_args == []
@@ -174,7 +170,7 @@ if __name__ == '__main__':
     hyperparam_str = "{}_dropout_{}.alpha_{}.lr_{}.temp_{}.D_hid_{}.D_emb_{}.num_dist_{}.vocab_size_{}_{}.hard_{}/".format(mill, args.dropout, args.alpha, args.lr, args.temp, args.D_hid, args.D_emb, args.num_dist, args.vocab_size, args.vocab_size, args.hard )
     path_dir = path + model_str + hyperparam_str
 
-    if not args.no_write: #not_write = False
+    if not args.no_write: 
         recur_mkdir(path_dir)
 
     sys.stdout = Logger(path_dir, no_write=args.no_write, no_terminal=args.no_terminal)
