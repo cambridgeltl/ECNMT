@@ -37,8 +37,8 @@ def translate(args, agent, labels, i2w, batch_size, which, tt):
     src_caps = [ x[1:-1] for x in src_caps[src_sorted_idx] ]
     trg_caps = [ x[1:-1] for x in trg_caps[src_sorted_idx] ]
 
-    l2_src = print_captions(src_caps, i2w["src"], " ", args.flores)
-    en_ref = print_captions(trg_caps, i2w["trg"], " ", args.flores)
+    l2_src = print_captions(src_caps, i2w["src"], " ")
+    en_ref = print_captions(trg_caps, i2w["trg"], " ")
     en_hyp = agent.translate(src_caps, args)
 
     print("---------------- {} TRANSLATION ----------------".format(which))
